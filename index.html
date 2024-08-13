@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar Keperluan Bulanan</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Daftar Keperluan Bulanan</h1>
+      <input type="text" id="itemInput" placeholder="Masukkan Barang" />
+      <input type="number" id="hargaBarang" placeholder="Masukkan Harga" />
+      <button onclick="tambahData()">Tambah</button>
+      <h3>Daftar Barang</h3>
+      <ul id="daftarBarang"></ul>
+      <h3>Total: Rp<span id="totalHarga">0</span></h3>
+    </div>
+
+    <script>
+      let totalHarga = 0;
+
+      function tambahData() {
+        const itemInput = document.getElementById("itemInput");
+        const hargaBarang = document.getElementById("hargaBarang");
+        const daftarBarang = document.getElementById("daftarBarang");
+
+        const barang = itemInput.value.trim();
+        const harga = parseInt(hargaBarang.value.trim());
+
+        if (barang && !isNaN(harga)) {
+          const li = document.createElement("li");
+          li.innerHTML = `${barang}, Rp${harga}
+          <button onclick="hapusItem(this, ${harga})">Hapus</button>
+          `;
+          daftarBarang.appendChild(li);
+
+          // Update total
+          totalHarga += harga;
+          updateTotalDisplay();
+
+          // Kosongkan input setelah menambah item
+          itemInput.value = "";
+          hargaBarang.value = "";
+        } else {
+          alert("Masukkan nama barang dan harga yang valid.");
+        }
+      }
+
+      function hapusItem(button, harga) {
+        const li = button.parentElement;
+        li.remove();
+
+        // Update total
+        totalHarga -= harga;
+        updateTotalDisplay();
+      }
+
+      function updateTotalDisplay() {
+        document.getElementById("totalHarga").textContent = totalHarga;
+      }
+    </script>
+  </body>
+</html>
